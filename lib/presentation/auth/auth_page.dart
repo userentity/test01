@@ -54,67 +54,69 @@ class _AuthPageState extends State<AuthPage> {
         builder: (context, state) {
           return Scaffold(
             resizeToAvoidBottomInset: true,
-            body: Stack(
-              children: [
-                SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: UI.padding),
-                    // Spacer can't be inside SingleChildScrollView
-                    child: CustomScrollView(
-                      physics: const ClampingScrollPhysics(),
-                      slivers: [
-                        SliverFillRemaining(
-                          hasScrollBody: false,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              const SizedBox(
-                                height: UI.padding / 2,
+            body: GestureDetector(
+              onTap: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              child: Stack(
+                children: [
+                  SafeArea(
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: UI.padding),
+                      // Spacer can't be inside SingleChildScrollView
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            const SizedBox(
+                              height: UI.padding / 2,
+                            ),
+                            const AuthAnimation(),
+                            const SizedBox(
+                              height: UI.padding * 2,
+                            ),
+                            Form(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  CustomInput(
+                                    label: "Email",
+                                    validator: Validators.email,
+                                    controller: _emailController,
+                                  ),
+                                  PasswordInput(
+                                    controller: _passwordController,
+                                  ),
+                                ],
                               ),
-                              const AuthAnimation(),
-                              const SizedBox(
-                                height: UI.padding * 2,
-                              ),
-                              Form(
-                                key: _formKey,
-                                child: Column(
-                                  children: [
-                                    CustomInput(
-                                      label: "Email",
-                                      validator: Validators.email,
-                                      controller: _emailController,
-                                    ),
-                                    PasswordInput(
-                                      controller: _passwordController,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const Spacer(),
-                              ElevatedButton(
-                                onPressed: () => _signIn(context),
-                                child: const Text("Sign In"),
-                              ),
-                              const SizedBox(
-                                height: UI.padding / 2,
-                              ),
-                              TextButton(
-                                onPressed: () => _signUp(context),
-                                child: const Text("Sign Up"),
-                              ),
-                              const SizedBox(
-                                height: UI.padding,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
+                            ),
+                            const SizedBox(
+                              height: UI.padding * 2,
+                            ),
+                            ElevatedButton(
+                              onPressed: () => _signIn(context),
+                              child: const Text("Sign In"),
+                            ),
+                            const SizedBox(
+                              height: UI.padding / 2,
+                            ),
+                            TextButton(
+                              onPressed: () => _signUp(context),
+                              child: const Text("Sign Up"),
+                            ),
+                            const SizedBox(
+                              height: UI.padding,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                // best to use dialog window instead stack
-                if (state is AuthLoading) const Loader(),
-              ],
+                  // best to use dialog window instead stack
+                  if (state is AuthLoading) const Loader(),
+                ],
+              ),
             ),
           );
         },

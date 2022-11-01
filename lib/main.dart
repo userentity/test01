@@ -1,25 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'core/router/app_router.gr.dart';
 import 'core/themes/dark_theme.dart';
 import 'firebase_options.dart';
 import 'service_locator.dart';
-
-Future<void> initAppSettings() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-}
-
-Future<void> initDependencies() async {
-  configureDependencies();
-}
 
 void main() async {
   await initAppSettings();
@@ -47,4 +33,18 @@ class _MyAppState extends State<MyApp> {
       routeInformationParser: _appRouter.defaultRouteParser(),
     );
   }
+}
+
+Future<void> initAppSettings() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+}
+
+Future<void> initDependencies() async {
+  configureDependencies();
 }
